@@ -16,7 +16,7 @@ MODULES = jailed
 endif
 
 ifndef YOUTUBE_VERSION
-YOUTUBE_VERSION = 20.03.2
+YOUTUBE_VERSION = 20.12.4
 endif
 ifndef UYOU_VERSION
 UYOU_VERSION = 3.0.4
@@ -40,7 +40,7 @@ $(TWEAK_NAME)_EMBED_EXTENSIONS = $(wildcard Extensions/*.appex)
 
 include $(THEOS)/makefiles/common.mk
 ifneq ($(JAILBROKEN),1)
-SUBPROJECTS += Tweaks/Alderis Tweaks/FLEXing/libflex Tweaks/iSponsorBlock Tweaks/YouGroupSettings Tweaks/Return-YouTube-Dislikes Tweaks/YouPiP Tweaks/YTABConfig Tweaks/YTUHD Tweaks/DontEatMyContent Tweaks/YTVideoOverlay Tweaks/YouMute Tweaks/YouQuality Tweaks/YTClassicVideoQuality Tweaks/NoYTPremium Tweaks/YTSpeed Tweaks/YouTube-X Tweaks/YouSpeed
+SUBPROJECTS += Tweaks/Alderis Tweaks/FLEXing/libflex Tweaks/iSponsorBlock Tweaks/YouGroupSettings Tweaks/Return-YouTube-Dislikes Tweaks/YouPiP Tweaks/YTABConfig Tweaks/YTUHD Tweaks/DontEatMyContent Tweaks/YTVideoOverlay Tweaks/YouMute Tweaks/YouQuality Tweaks/YTClassicVideoQuality Tweaks/NoYTPremium Tweaks/YouTube-X Tweaks/YouSpeed
 include $(THEOS_MAKE_PATH)/aggregate.mk
 endif
 include $(THEOS_MAKE_PATH)/tweak.mk
@@ -63,7 +63,10 @@ before-all::
 		$(PRINT_FORMAT_BLUE) "Downloading uYou"; \
 	fi
 before-all::
-	@if [[ ! -f $(UYOU_DEB) ]]; then \
+	@if [[ ! -f $(UYOU_DEB) && -n $(UYOU_URL) ]]; then \
+		curl -s $(UYOU_URL) -o $(UYOU_DEB); \
+	fi; \
+	if [[ ! -f $(UYOU_DEB) ]]; then \
  		curl -s https://repo.miro92.com/debs/com.miro.uyou_$(UYOU_VERSION)_iphoneos-arm.deb -o $(UYOU_DEB); \
  	fi; \
 	if [[ ! -f $(UYOU_DYLIB) || ! -d $(UYOU_BUNDLE) ]]; then \
